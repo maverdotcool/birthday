@@ -159,6 +159,27 @@
             font-size: 1.2rem;
             color: #6b7280;
         }
+        .code-box {
+            background: #f3f4f6;
+            border: 3px dashed #9ca3af;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #111827;
+            letter-spacing: 2px;
+            user-select: all;
+            cursor: pointer;
+        }
+        .code-box:hover {
+            background: #e5e7eb;
+        }
+        .copy-hint {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin-top: 10px;
+        }
         .hidden { display: none; }
         .emoji { font-size: 3rem; margin: 20px 0; }
         .emoji-big { font-size: 5rem; margin: 20px 0; }
@@ -169,18 +190,18 @@
         <div class="container">
             <div class="emoji">🐕</div>
             <h1 class="title">BOBBI'S QUEST</h1>
-            <p class="subtitle">Find the Gift Card!</p>
+            <p class="subtitle">Find the Present for Mum!</p>
             
             <div class="info-box">
                 <h3>🐕 BOBBI THE PUG</h3>
-                <p>Your adorable pug companion is ready for adventure!</p>
+                <p>Bobbi is ready to search for treats or presents!</p>
             </div>
             
             <div class="info-box">
                 <h3>📜 YOUR MISSION:</h3>
                 <p>→ Guide Bobbi through tall grass</p>
                 <p>→ Find 12 hidden presents</p>
-                <p>→ Only ONE has the Apple Gift Card!</p>
+                <p>→ Only ONE has the Present!</p>
                 <p>→ Use ARROW KEYS or WASD to move</p>
                 <p>→ Camera follows Bobbi automatically</p>
             </div>
@@ -237,6 +258,11 @@
                     <div style="font-size: 4rem;">🍎</div>
                     <h4>APPLE GIFT CARD</h4>
                     <p>Treat yourself, Mum! 💝</p>
+                    
+                    <div class="code-box" onclick="copyCode()" id="giftCode">
+                        Loading code...
+                    </div>
+                    <p class="copy-hint">👆 Click to copy code</p>
                 </div>
             </div>
 
@@ -254,10 +280,11 @@
         const BOBBI_IMAGE_URL = 'bobbi.png'; // Put your image file in the same folder as index.html
         
         // REPLACE THIS with your actual gift card code
-        const GIFT_CARD_CODE = 'XXXX-XXXX-XXXX-XXXX';
+        const GIFT_CARD_CODE = 'XJLHP8NG4X8F7Y9J';
         
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
+        ctx.imageSmoothingEnabled = false; // Keep images crisp
         
         const GRID_SIZE = 30;
         const VIEWPORT_SIZE = 11;
@@ -266,6 +293,14 @@
         
         // Load Bobbi image
         const bobbiImg = new Image();
+        bobbiImg.onload = function() {
+            console.log('Bobbi image loaded successfully!');
+            draw(); // Redraw when image loads
+        };
+        bobbiImg.onerror = function() {
+            console.error('Failed to load Bobbi image from:', BOBBI_IMAGE_URL);
+            console.log('Check: 1) File exists, 2) Filename matches exactly (case-sensitive), 3) File is in same folder');
+        };
         bobbiImg.src = BOBBI_IMAGE_URL;
         
         let gameState = {
@@ -352,8 +387,13 @@
                     }
                     
                     if (gameState.bobbi.x === worldX && gameState.bobbi.y === worldY) {
-                        ctx.font = '36px Arial';
-                        ctx.fillText('🐕', x * TILE_SIZE + 6, y * TILE_SIZE + 38);
+                        // Draw Bobbi image if loaded, otherwise use emoji
+                        if (bobbiImg.complete && bobbiImg.naturalHeight !== 0) {
+                            ctx.drawImage(bobbiImg, x * TILE_SIZE + 4, y * TILE_SIZE + 4, 40, 40);
+                        } else {
+                            ctx.font = '36px Arial';
+                            ctx.fillText('🐕', x * TILE_SIZE + 6, y * TILE_SIZE + 38);
+                        }
                     }
                 }
             }
@@ -418,6 +458,21 @@
             document.getElementById('gameScreen').classList.add('hidden');
             document.getElementById('winScreen').classList.remove('hidden');
             document.getElementById('finalMoves').textContent = gameState.moves;
+            document.getElementById('giftCode').textContent = GIFT_CARD_CODE;
+        }
+        
+        function copyCode() {
+            const code = GIFT_CARD_CODE;
+            navigator.clipboard.writeText(code).then(() => {
+                const box = document.getElementById('giftCode');
+                const originalText = box.textContent;
+                box.textContent = '✓ Copied!';
+                setTimeout(() => {
+                    box.textContent = originalText;
+                }, 1500);
+            }).catch(() => {
+                alert('Gift card code: ' + code);
+            });
         }
 
         document.addEventListener('keydown', (e) => {
