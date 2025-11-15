@@ -9,7 +9,7 @@
         body {
             font-family: monospace;
             background: #111827;
-            overflow: hidden;
+            overflow-x: hidden;
         }
         .screen {
             min-height: 100vh;
@@ -17,6 +17,7 @@
             align-items: center;
             justify-content: center;
             padding: 20px;
+            overflow-y: auto;
         }
         .container {
             background: #1f2937;
@@ -24,42 +25,46 @@
             border-radius: 12px;
             padding: 40px;
             max-width: 800px;
+            width: 100%;
             text-align: center;
             box-shadow: 0 0 40px rgba(0,0,0,0.8);
+            margin: auto;
         }
         .title {
-            font-size: 3rem;
+            font-size: 2.5rem;
             color: #fbbf24;
             text-shadow: 4px 4px 0px #000;
             margin: 20px 0;
         }
         .subtitle {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             color: #4ade80;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         .info-box {
             background: #111827;
             border: 4px solid #4b5563;
             border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
+            padding: 15px;
+            margin: 15px 0;
             text-align: left;
         }
         .info-box h3 {
             color: #fbbf24;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
+            font-size: 1rem;
         }
         .info-box p {
             color: #86efac;
-            margin: 8px 0;
+            margin: 5px 0;
+            font-size: 0.9rem;
         }
         .btn {
             background: #16a34a;
             color: white;
             border: 4px solid #15803d;
-            padding: 15px 40px;
-            font-size: 1.5rem;
+            padding: 12px 30px;
+            font-size: 1.2rem;
             font-weight: bold;
             cursor: pointer;
             border-radius: 4px;
@@ -181,8 +186,41 @@
             margin-top: 10px;
         }
         .hidden { display: none; }
-        .emoji { font-size: 3rem; margin: 20px 0; }
-        .emoji-big { font-size: 5rem; margin: 20px 0; }
+        .emoji { font-size: 2.5rem; margin: 15px 0; }
+        .emoji-big { font-size: 4rem; margin: 15px 0; }
+        
+        /* Mobile optimizations */
+        @media (max-width: 640px) {
+            .container {
+                padding: 20px;
+                border: 4px solid #374151;
+            }
+            .title {
+                font-size: 2rem;
+            }
+            .subtitle {
+                font-size: 1rem;
+            }
+            .emoji {
+                font-size: 2rem;
+            }
+            .emoji-big {
+                font-size: 3rem;
+            }
+            .info-box {
+                padding: 12px;
+            }
+            .info-box h3 {
+                font-size: 0.9rem;
+            }
+            .info-box p {
+                font-size: 0.8rem;
+            }
+            #gameCanvas {
+                max-width: 100%;
+                height: auto;
+            }
+        }
     </style>
 </head>
 <body>
@@ -190,18 +228,18 @@
         <div class="container">
             <div class="emoji">🐕</div>
             <h1 class="title">BOBBI'S QUEST</h1>
-            <p class="subtitle">Find the Present for Mum!</p>
+            <p class="subtitle">Find the Gift Card!</p>
             
             <div class="info-box">
                 <h3>🐕 BOBBI THE PUG</h3>
-                <p>Bobbi is ready to search for treats or presents!</p>
+                <p>Your adorable pug companion is ready for adventure!</p>
             </div>
             
             <div class="info-box">
                 <h3>📜 YOUR MISSION:</h3>
                 <p>→ Guide Bobbi through tall grass</p>
                 <p>→ Find 12 hidden presents</p>
-                <p>→ Only ONE has the Present!</p>
+                <p>→ Only ONE has the Apple Gift Card!</p>
                 <p>→ Use ARROW KEYS or WASD to move</p>
                 <p>→ Camera follows Bobbi automatically</p>
             </div>
@@ -280,7 +318,7 @@
         const BOBBI_IMAGE_URL = 'bobbi.png'; // Put your image file in the same folder as index.html
         
         // REPLACE THIS with your actual gift card code
-        const GIFT_CARD_CODE = 'XJLHP8NG4X8F7Y9J';
+        const GIFT_CARD_CODE = 'XXXX-XXXX-XXXX-XXXX';
         
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
