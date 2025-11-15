@@ -2,69 +2,78 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Bobbi's Quest</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box;
+            touch-action: manipulation;
+        }
         body {
             font-family: monospace;
             background: #111827;
-            overflow-x: hidden;
+            overflow: hidden;
+            -webkit-user-select: none;
+            user-select: none;
         }
         .screen {
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 10px;
             overflow-y: auto;
         }
         .container {
             background: #1f2937;
-            border: 8px solid #374151;
+            border: 6px solid #374151;
             border-radius: 12px;
-            padding: 40px;
-            max-width: 800px;
+            padding: 20px;
+            max-width: 90vw;
             width: 100%;
+            max-height: 95vh;
+            overflow-y: auto;
             text-align: center;
             box-shadow: 0 0 40px rgba(0,0,0,0.8);
-            margin: auto;
         }
         .title {
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: #fbbf24;
-            text-shadow: 4px 4px 0px #000;
-            margin: 20px 0;
+            text-shadow: 3px 3px 0px #000;
+            margin: 10px 0;
         }
         .subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #4ade80;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .info-box {
             background: #111827;
-            border: 4px solid #4b5563;
+            border: 3px solid #4b5563;
             border-radius: 8px;
-            padding: 15px;
-            margin: 15px 0;
+            padding: 12px;
+            margin: 10px 0;
             text-align: left;
         }
         .info-box h3 {
             color: #fbbf24;
-            margin-bottom: 10px;
-            font-size: 1rem;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
         }
         .info-box p {
             color: #86efac;
-            margin: 5px 0;
-            font-size: 0.9rem;
+            margin: 4px 0;
+            font-size: 0.85rem;
+            line-height: 1.3;
         }
         .btn {
             background: #16a34a;
             color: white;
             border: 4px solid #15803d;
             padding: 12px 30px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
             border-radius: 4px;
@@ -75,21 +84,21 @@
         }
         .game-container {
             background: #1f2937;
-            border: 8px solid #374151;
+            border: 6px solid #374151;
             border-radius: 12px;
             display: inline-block;
             box-shadow: 0 0 40px rgba(0,0,0,0.8);
         }
         .stats {
             background: #1f2937;
-            border: 4px solid #4b5563;
+            border: 3px solid #4b5563;
             border-radius: 8px;
-            padding: 15px 30px;
-            margin-bottom: 20px;
+            padding: 10px 20px;
+            margin-bottom: 15px;
             display: inline-flex;
-            gap: 40px;
+            gap: 30px;
             color: white;
-            font-size: 1.2rem;
+            font-size: 1rem;
         }
         .stat-value {
             color: #fbbf24;
@@ -99,127 +108,133 @@
             display: block;
             image-rendering: pixelated;
             image-rendering: crisp-edges;
+            max-width: 100%;
+            height: auto;
         }
         .message-box {
             background: #1f2937;
-            border: 4px solid #4b5563;
+            border: 3px solid #4b5563;
             border-radius: 8px;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 600px;
+            padding: 12px;
+            margin: 15px auto;
+            max-width: 90%;
             color: white;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
         }
         .controls {
             display: grid;
-            grid-template-columns: repeat(3, 60px);
-            gap: 10px;
-            margin: 20px auto;
+            grid-template-columns: repeat(3, 55px);
+            gap: 8px;
+            margin: 15px auto;
             width: fit-content;
         }
         .control-btn {
-            width: 60px;
-            height: 60px;
+            width: 55px;
+            height: 55px;
             background: #374151;
             border: 2px solid #4b5563;
             border-radius: 8px;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            touch-action: none;
+            user-select: none;
         }
         .control-btn:hover {
             background: #4b5563;
         }
-        .control-btn:active {
+        .control-btn:active, .control-btn.pressed {
             background: #1f2937;
         }
         .win-container {
-            border: 8px solid #ca8a04 !important;
+            border: 6px solid #ca8a04 !important;
             box-shadow: 0 0 40px rgba(234, 179, 8, 0.5) !important;
         }
         .reward-box {
             background: linear-gradient(135deg, #374151, #1f2937);
-            border: 8px solid #fbbf24;
+            border: 6px solid #fbbf24;
             border-radius: 12px;
-            padding: 40px;
-            margin: 30px 0;
+            padding: 20px;
+            margin: 15px 0;
             box-shadow: 0 0 30px rgba(234, 179, 8, 0.5);
         }
         .gift-card {
             background: white;
-            border: 4px solid #4b5563;
+            border: 3px solid #4b5563;
             border-radius: 8px;
-            padding: 30px;
-            margin-top: 20px;
+            padding: 20px;
+            margin-top: 15px;
         }
         .gift-card h4 {
-            font-size: 2.5rem;
+            font-size: 1.8rem;
             color: #111827;
-            margin: 10px 0;
+            margin: 8px 0;
         }
         .gift-card p {
-            font-size: 1.2rem;
+            font-size: 1rem;
             color: #6b7280;
         }
         .code-box {
             background: #f3f4f6;
             border: 3px dashed #9ca3af;
             border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
-            font-size: 1.8rem;
+            padding: 15px;
+            margin: 15px 0;
+            font-size: 1.3rem;
             font-weight: bold;
             color: #111827;
             letter-spacing: 2px;
             user-select: all;
             cursor: pointer;
+            word-break: break-all;
         }
         .code-box:hover {
             background: #e5e7eb;
         }
         .copy-hint {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: #6b7280;
-            margin-top: 10px;
+            margin-top: 8px;
         }
         .hidden { display: none; }
-        .emoji { font-size: 2.5rem; margin: 15px 0; }
-        .emoji-big { font-size: 4rem; margin: 15px 0; }
+        .emoji { font-size: 2.5rem; margin: 10px 0; }
+        .emoji-big { font-size: 3.5rem; margin: 10px 0; }
         
-        /* Mobile optimizations */
         @media (max-width: 640px) {
-            .container {
-                padding: 20px;
-                border: 4px solid #374151;
-            }
-            .title {
-                font-size: 2rem;
-            }
-            .subtitle {
-                font-size: 1rem;
-            }
-            .emoji {
-                font-size: 2rem;
-            }
-            .emoji-big {
-                font-size: 3rem;
-            }
-            .info-box {
-                padding: 12px;
-            }
-            .info-box h3 {
-                font-size: 0.9rem;
-            }
-            .info-box p {
-                font-size: 0.8rem;
-            }
-            #gameCanvas {
-                max-width: 100%;
-                height: auto;
-            }
+            .title { font-size: 1.6rem; }
+            .subtitle { font-size: 0.95rem; }
+            .emoji { font-size: 2rem; }
+            .emoji-big { font-size: 3rem; }
+            .container { padding: 15px; border: 4px solid #374151; }
+            .info-box { padding: 10px; }
+            .info-box h3 { font-size: 0.85rem; }
+            .info-box p { font-size: 0.75rem; }
+            .btn { padding: 10px 25px; font-size: 1rem; }
+            .stats { font-size: 0.9rem; gap: 20px; padding: 8px 15px; }
+            .controls { grid-template-columns: repeat(3, 50px); gap: 6px; }
+            .control-btn { width: 50px; height: 50px; font-size: 1.2rem; }
+            .gift-card h4 { font-size: 1.5rem; }
+            .code-box { font-size: 1.1rem; padding: 12px; }
+        }
+        
+        @media (max-height: 700px) {
+            .container { padding: 12px; max-height: 98vh; }
+            .title { font-size: 1.5rem; margin: 5px 0; }
+            .subtitle { font-size: 0.9rem; margin-bottom: 8px; }
+            .info-box { padding: 8px; margin: 8px 0; }
+            .info-box h3 { font-size: 0.8rem; margin-bottom: 5px; }
+            .info-box p { font-size: 0.7rem; margin: 3px 0; }
+            .emoji { font-size: 2rem; margin: 5px 0; }
+            .emoji-big { font-size: 2.5rem; margin: 5px 0; }
+            .btn { padding: 8px 20px; font-size: 0.95rem; }
+            .stats { padding: 6px 12px; margin-bottom: 10px; font-size: 0.85rem; }
+            .message-box { padding: 8px; font-size: 0.85rem; margin: 10px auto; }
+            .controls { margin: 10px auto; }
+            .reward-box { padding: 15px; margin: 10px 0; }
+            .gift-card { padding: 15px; }
         }
     </style>
 </head>
@@ -228,18 +243,18 @@
         <div class="container">
             <div class="emoji">🐕</div>
             <h1 class="title">BOBBI'S QUEST</h1>
-            <p class="subtitle">Find the Gift Card!</p>
+            <p class="subtitle">Find the Present for Mum!</p>
             
             <div class="info-box">
                 <h3>🐕 BOBBI THE PUG</h3>
-                <p>Your adorable pug companion is ready for adventure!</p>
+                <p>Bobbi is ready to search for treats or presents!</p>
             </div>
             
             <div class="info-box">
                 <h3>📜 YOUR MISSION:</h3>
                 <p>→ Guide Bobbi through tall grass</p>
                 <p>→ Find 12 hidden presents</p>
-                <p>→ Only ONE has the Apple Gift Card!</p>
+                <p>→ Only ONE has the Present!</p>
                 <p>→ Use ARROW KEYS or WASD to move</p>
                 <p>→ Camera follows Bobbi automatically</p>
             </div>
@@ -263,14 +278,14 @@
 
             <div class="controls">
                 <div></div>
-                <button class="control-btn" onclick="move(0,-1)">↑</button>
+                <button class="control-btn" data-dir="up">↑</button>
                 <div></div>
-                <button class="control-btn" onclick="move(-1,0)">←</button>
-                <button class="control-btn" onclick="move(0,1)">↓</button>
-                <button class="control-btn" onclick="move(1,0)">→</button>
+                <button class="control-btn" data-dir="left">←</button>
+                <button class="control-btn" data-dir="down">↓</button>
+                <button class="control-btn" data-dir="right">→</button>
             </div>
 
-            <p style="color: #6b7280; margin-top: 20px;">Use Arrow Keys or WASD to move</p>
+            <p style="color: #6b7280; font-size: 0.85rem; margin-top: 10px;">Use Arrow Keys or WASD</p>
         </div>
     </div>
 
@@ -283,17 +298,17 @@
             <div class="emoji">🐕</div>
             
             <div class="info-box" style="text-align: center;">
-                <p style="font-size: 1.5rem; color: #4ade80;">
+                <p style="font-size: 1.2rem; color: #4ade80;">
                     ⭐ Bobbi found it in <span id="finalMoves">0</span> moves! ⭐
                 </p>
             </div>
 
             <div class="reward-box">
                 <div class="emoji">🎁</div>
-                <h3 style="font-size: 2rem; color: #fde047; margin-bottom: 20px;">YOUR REWARD!</h3>
+                <h3 style="font-size: 1.5rem; color: #fde047; margin-bottom: 12px;">YOUR REWARD!</h3>
                 
                 <div class="gift-card">
-                    <div style="font-size: 4rem;">🍎</div>
+                    <div style="font-size: 3rem;">🍎</div>
                     <h4>APPLE GIFT CARD</h4>
                     <p>Treat yourself, Mum! 💝</p>
                     
@@ -305,7 +320,7 @@
             </div>
 
             <div class="info-box" style="text-align: center;">
-                <p style="font-size: 1.5rem; color: #f9a8d4;">💝 WITH ALL OUR LOVE</p>
+                <p style="font-size: 1.2rem; color: #f9a8d4;">💝 WITH ALL OUR LOVE</p>
                 <p style="color: #9ca3af;">Thank you for everything! ❤️</p>
             </div>
 
@@ -318,7 +333,7 @@
         const BOBBI_IMAGE_URL = 'bobbi.png'; // Put your image file in the same folder as index.html
         
         // REPLACE THIS with your actual gift card code
-        const GIFT_CARD_CODE = 'XXXX-XXXX-XXXX-XXXX';
+        const GIFT_CARD_CODE = 'XJLHP8NG4X8F7Y9J';
         
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
@@ -333,7 +348,9 @@
         const bobbiImg = new Image();
         bobbiImg.onload = function() {
             console.log('Bobbi image loaded successfully!');
-            draw(); // Redraw when image loads
+            if (!document.getElementById('gameScreen').classList.contains('hidden')) {
+                draw();
+            }
         };
         bobbiImg.onerror = function() {
             console.error('Failed to load Bobbi image from:', BOBBI_IMAGE_URL);
@@ -349,6 +366,8 @@
             isMoving: false,
             message: ''
         };
+        
+        let holdInterval = null;
 
         function startGame() {
             document.getElementById('startScreen').classList.add('hidden');
@@ -526,6 +545,55 @@
             else if (key === 'arrowleft' || key === 'a') move(-1, 0);
             else if (key === 'arrowright' || key === 'd') move(1, 0);
         });
+        
+        // Touch and hold controls for mobile
+        function setupTouchControls() {
+            const buttons = document.querySelectorAll('.control-btn');
+            
+            buttons.forEach(btn => {
+                const dir = btn.getAttribute('data-dir');
+                if (!dir) return;
+                
+                const startHold = (e) => {
+                    e.preventDefault();
+                    btn.classList.add('pressed');
+                    
+                    moveByDirection(dir);
+                    
+                    holdInterval = setInterval(() => {
+                        moveByDirection(dir);
+                    }, 200);
+                };
+                
+                const endHold = (e) => {
+                    e.preventDefault();
+                    btn.classList.remove('pressed');
+                    if (holdInterval) {
+                        clearInterval(holdInterval);
+                        holdInterval = null;
+                    }
+                };
+                
+                btn.addEventListener('mousedown', startHold);
+                btn.addEventListener('mouseup', endHold);
+                btn.addEventListener('mouseleave', endHold);
+                
+                btn.addEventListener('touchstart', startHold, { passive: false });
+                btn.addEventListener('touchend', endHold, { passive: false });
+                btn.addEventListener('touchcancel', endHold, { passive: false });
+            });
+        }
+        
+        function moveByDirection(dir) {
+            switch(dir) {
+                case 'up': move(0, -1); break;
+                case 'down': move(0, 1); break;
+                case 'left': move(-1, 0); break;
+                case 'right': move(1, 0); break;
+            }
+        }
+        
+        setTimeout(setupTouchControls, 100);
     </script>
 </body>
 </html>
